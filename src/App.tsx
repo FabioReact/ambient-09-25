@@ -1,29 +1,30 @@
-import Title2 from './Title'
-import customClasses from './custom.module.css'
-
-const ProductCard = ({ name, price }: { name: string, price: number }) => {
-  return (
-    <div>
-      <p>{name}</p>
-      <p>{price}</p>
-    </div>
-  )
-}
+import { useState } from "react";
+import LearnUseState from "./pages/learning/LearnUseState";
+import HeroesList from "./pages/HeroesList/HeroesList";
 
 function App() {
-  const product = {
-    name: 'Superman',
-    price: 100,
-    id: 1
-  }
+  const [alignmentFilter, setAlignmentFilter] = useState("good");
+
+  const heroes = [{ id: 1, name: "Batman", alignment: "good" }, { id: 2, name: "Joker", alignment: "bad" }, { id: 3, name: "Catwoman", alignment: "good" }, {id: 4, name: "Riddler", alignment: "bad" }];
+
+  const result = heroes.filter(hero => hero.alignment === alignmentFilter);
+
   return (
     <>
-      <h1 className={customClasses.green}>Premier Titre</h1>
-      <h2>Second Titre</h2>
-      <Title2 />
-      <ProductCard name={product.name} price={product.price} />
+      <h1>React</h1>
+      <select name="alignment" id="alignment" defaultValue={alignmentFilter} onChange={event => {
+        setAlignmentFilter(event.target.value);
+      }}>
+        <option value="good">Good</option>
+        <option value="bad">Bad</option>
+      </select>
+      <ul>
+        {result.map(hero => <li key={hero.id}>{hero.name}</li>)}
+      </ul>
+      <LearnUseState />
+      <HeroesList />
     </>
   )
 }
 
-export default App
+export default App;
