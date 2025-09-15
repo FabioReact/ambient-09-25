@@ -9,7 +9,7 @@ const SelectLetter = ({ selectedLetter, onSelect }: Props) => {
     const arrayOfLetters = generateLetters();
 
     return (
-        <ul className="flex uppercase justify-center gap-2">
+        <ul className="flex uppercase justify-center gap-2 my-4">
             {arrayOfLetters.map(letter => {
                 let classNames = "cursor-pointer";
                 if (selectedLetter === letter) {

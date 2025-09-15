@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LearnUseState from "./pages/learning/LearnUseState";
 import HeroesList from "./pages/HeroesList/HeroesList";
+import LearnUseEffect from "./pages/learning/LearnUseEffect";
 
 function App() {
   const [alignmentFilter, setAlignmentFilter] = useState("good");
@@ -21,7 +22,7 @@ function App() {
       <ul>
         {result.map(hero => <li key={hero.id}>{hero.name}</li>)}
       </ul>
-      <LearnUseState />
+      {/* <LearnUseState /> */}
       <HeroesList />
     </>
   )
