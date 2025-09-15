@@ -15,3 +15,15 @@ const updatedUser = {
 };
 
 console.log(updatedUser);
+
+// const name = user.name;
+// const age = user.age;
+// const allergies = user.allergies;
+const { name, age, allergies } = user;
+
+const color = [255, 0, 255];
+// const red = color[0];
+// const green = color[1];
+// const blue = color[2];
+const [red, green, blue] = color;
+const colorWithAlpha = [...color, 0.5];
