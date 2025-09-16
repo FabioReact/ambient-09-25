@@ -1,42 +1,29 @@
-import { useState } from 'react'
-import LearnUseState from './pages/learning/LearnUseState'
-import HeroesList from './pages/HeroesList/HeroesList'
-import LearnUseEffect from './pages/learning/LearnUseEffect'
+import { BrowserRouter, Route, Routes } from "react-router"
+import HeroesList from "./pages/HeroesList/HeroesList"
+import MainLayout from "./layout/MainLayout"
+import HeroDetails from "./pages/HeroDetails/HeroDetails"
+import Search from "./pages/Search/Search"
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<p>Home</p>} />
+        <Route path="/heroes" element={<HeroesList />} />
+        <Route path="/heroes/:id" element={<HeroDetails />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="*" element={<p>404</p>} />
+      </Route>
+    </Routes>
+  )
+}
 
 function App() {
-  const [alignmentFilter, setAlignmentFilter] = useState('good')
-
-  const heroes = [
-    { id: 1, name: 'Batman', alignment: 'good' },
-    { id: 2, name: 'Joker', alignment: 'bad' },
-    { id: 3, name: 'Catwoman', alignment: 'good' },
-    { id: 4, name: 'Riddler', alignment: 'bad' },
-  ]
-
-  const result = heroes.filter((hero) => hero.alignment === alignmentFilter)
-
   return (
     <>
-      <h1>React</h1>
-      <select
-        name='alignment'
-        id='alignment'
-        defaultValue={alignmentFilter}
-        onChange={(event) => {
-          setAlignmentFilter(event.target.value)
-        }}
-      >
-        <option value='good'>Good</option>
-        <option value='bad'>Bad</option>
-      </select>
-      <ul>
-        {result.map((hero) => (
-          <li key={hero.id}>{hero.name}</li>
-        ))}
-      </ul>
-      <LearnUseState />
-      <LearnUseEffect />
-      <HeroesList />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </>
   )
 }

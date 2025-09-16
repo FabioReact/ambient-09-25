@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import type { Hero } from '../../types/hero'
 
 type Props = {
@@ -17,7 +18,8 @@ const HeroCard = ({ hero }: Props) => {
       <div className='px-6 py-2'>
         <div className='flex justify-between'>
           <p className='font-bold text-xl'>
-            {hero.name} <span className='text-gray-600 text-base'>#{hero.id}</span>
+            <Link to={`${hero.id}`}>{hero.name}</Link>
+            <span className='text-gray-600 text-base'>#{hero.id}</span>
           </p>
         </div>
         <p className='text-lg mb-2'>{hero.biography['full-name']}</p>

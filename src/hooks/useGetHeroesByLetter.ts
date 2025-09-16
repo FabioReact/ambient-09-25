@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import type { Hero } from "../types/hero"
-import { getHeroesByLetter } from "../services/hero"
+import { useEffect, useState } from 'react'
+import type { Hero } from '../types/hero'
+import { getHeroesByLetter } from '../services/hero'
 
 export const useGetHeroesByLetter = (initialLetter = 'a') => {
   const [heroes, setHeroes] = useState<Hero[] | null>(null)
