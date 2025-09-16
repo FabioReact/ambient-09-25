@@ -4,6 +4,8 @@ import { HeroAlignment, type Hero } from '../../types/hero'
 import HeroCard from '../../components/HeroCard/HeroCard'
 
 const Search = () => {
+  // Utiliser react-hook-form
+  // Mettre en place de la validation avec zod
   const [inputValue, setInputValue] = useState('')
   const renders = useRef(0)
   const inputRef = useRef<HTMLInputElement>(null)
