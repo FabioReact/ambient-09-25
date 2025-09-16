@@ -25,6 +25,11 @@ const MainLayout = () => {
                 Search
               </NavLink>
             </li>
+            <li>
+              <NavLink to='/register' className={getActiveClassNames}>
+                Register
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </header>

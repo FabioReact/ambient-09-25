@@ -3,6 +3,7 @@ import HeroesList from './pages/HeroesList/HeroesList'
 import MainLayout from './layout/MainLayout'
 import HeroDetails from './pages/HeroDetails/HeroDetails'
 import Search from './pages/Search/Search'
+import Register from './pages/Register/Register'
 
 const AppRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoutes = () => {
         <Route path='/heroes' element={<HeroesList />} />
         <Route path='/heroes/:id' element={<HeroDetails />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/register' element={<Register />} />
         <Route path='*' element={<p>404</p>} />
       </Route>
     </Routes>
