@@ -1,3 +1,8 @@
+export enum HeroAlignment {
+  GOOD = 'good',
+  BAD = 'bad',
+}
+
 export type Hero = {
   id: number
   name: string
@@ -16,7 +21,7 @@ export type Hero = {
     'place-of-birth': string
     'first-appearance': string
     publisher: string
-    alignment: string
+    alignment: HeroAlignment
   }
   appearance: {
     gender: string
