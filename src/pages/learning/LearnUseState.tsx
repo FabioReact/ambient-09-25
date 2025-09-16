@@ -1,22 +1,14 @@
-import { useState } from "react";
+import useCounter from "../../hooks/useCounter";
 
 const LearnUseState = () => {
-    const [counter, setCounter] = useState(0);
-
-    const onIncrement = () => {
-        setCounter(c => c + 1);
-    }
-
-    const onDecrement = () => {
-        setCounter(counter - 1);
-    }
+    const { counter, increment, decrement } = useCounter();
 
     return (
         <section>
             <h1>Learning useState</h1>
             <p>Counter: {counter}</p>
-            <button onClick={onIncrement}>Increment</button>
-            <button onClick={onDecrement}>Decrement</button>
+            <button onClick={increment}>Increment</button>
+            <button onClick={decrement}>Decrement</button>
         </section>
     )
 }

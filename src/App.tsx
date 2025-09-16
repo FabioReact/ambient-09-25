@@ -22,7 +22,8 @@ function App() {
       <ul>
         {result.map(hero => <li key={hero.id}>{hero.name}</li>)}
       </ul>
-      {/* <LearnUseState /> */}
+      <LearnUseState />
+      <LearnUseEffect />
       <HeroesList />
     </>
   )
