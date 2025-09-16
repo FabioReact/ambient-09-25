@@ -19,7 +19,7 @@ export const useGetHeroesByLetter = (initialLetter = 'a') => {
       // cleanup
       controller.abort()
     }
-  }, [])
+  }, [initialLetter])
 
   const refetch = (letter: string) => {
     setLoading(true)

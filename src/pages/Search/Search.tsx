@@ -13,9 +13,11 @@ const Search = () => {
   const onSubmitHandler = (event: React.FormEvent) => {
     event.preventDefault()
     const alignment = alignmentRef.current?.value as HeroAlignment
-    getHeroesByFilters({ fullname: inputValue, name: inputRef.current?.value, alignment }).then((heroes) => {
-      setHeroes(heroes)
-    })
+    getHeroesByFilters({ fullname: inputValue, name: inputRef.current?.value, alignment }).then(
+      (heroes) => {
+        setHeroes(heroes)
+      },
+    )
   }
 
   return (
