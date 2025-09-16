@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import SelectLetter from './SelectLetter'
-import type { Hero } from '../../types/hero'
 import HeroCard from '../../components/HeroCard/HeroCard'
-import { getHeroesByLetter } from '../../services/hero'
 import IsLoading from '../../components/IsLoading/IsLoading'
+import { useGetHeroesByLetter } from '../../hooks/useGetHeroesByLetter'
 
 const initialLetter = 'a'
 
 const HeroesList = () => {
   const [selectedLetter, setSelectedLetter] = useState(initialLetter)
-  const [loading, setLoading] = useState(true)
-  const [heroes, setHeroes] = useState<Hero[] | null>(null)
+  const { heroes, loading, refetch } = useGetHeroesByLetter(initialLetter)
+
   // useGetHeroesByLetter
 
   // Fonction pure uniquement
@@ -18,28 +17,9 @@ const HeroesList = () => {
   // 2. Pas d'effet de bord
   // 3. Donc aucun appel http
 
-  useEffect(() => {
-    const controller = new AbortController()
-
-    getHeroesByLetter(initialLetter, {
-      signal: controller.signal,
-    }).then((result) => {
-      setHeroes(result)
-      setLoading(false)
-    })
-    return () => {
-      // cleanup
-      controller.abort()
-    }
-  }, [])
-
   const onClickLetter = (letter: string) => {
     setSelectedLetter(letter)
-    setLoading(true)
-    getHeroesByLetter(letter).then((result) => {
-      setHeroes(result)
-      setLoading(false)
-    })
+    refetch(letter)
   }
 
   return (
