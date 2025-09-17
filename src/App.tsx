@@ -8,6 +8,7 @@ import Profile from './pages/Profile/Profile'
 import AuthContextProvider from './providers/AuthContextProvider'
 import CounterContextProvider from './providers/CounterContextProvider'
 import Home from './pages/Home/Home'
+import HeroContextProvider from './providers/HeroContextProvider'
 
 const AppRoutes = () => {
   return (
@@ -30,9 +31,11 @@ function App() {
     <>
       <BrowserRouter>
         <AuthContextProvider>
-          <CounterContextProvider>
-            <AppRoutes />
-          </CounterContextProvider>
+          <HeroContextProvider>
+            <CounterContextProvider>
+              <AppRoutes />
+            </CounterContextProvider>
+          </HeroContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
     </>

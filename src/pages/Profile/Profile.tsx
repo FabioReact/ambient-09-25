@@ -1,9 +1,11 @@
 import { useAuthContext } from '../../context/auth-context'
 import { useCounterContext } from '../../context/counter-context'
+import { useHeroContext } from '../../context/hero-context'
 
 const Profile = () => {
   const { accessToken } = useAuthContext()
   const { counter, increment } = useCounterContext()
+  const { favorites, removeFromFavorites } = useHeroContext()
   return (
     <section>
       <h1>Profile</h1>
@@ -13,9 +15,20 @@ const Profile = () => {
         <p>Token: {accessToken}</p>
       </div>
       <div>
-        <h2>Something Else</h2>
+        <h2>Heroes</h2>
         <p>Counter: {counter}</p>
         <button onClick={increment}>Increment</button>
+        <ul>
+          {favorites.map((f) => (
+            <li key={f.id}>
+              <span>#{f.id}</span>
+              {f.name}{' '}
+              <button onClick={() => removeFromFavorites(f.id)} className='text-red-600'>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )

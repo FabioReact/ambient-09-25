@@ -6,7 +6,12 @@ type IsLoadingProps = {
 }
 
 const IsLoading = ({ loading, children }: PropsWithChildren<IsLoadingProps>) => {
-  if (loading) return <Spinner />
+  if (loading)
+    return (
+      <div className='flex justify-center'>
+        <Spinner />
+      </div>
+    )
   return children
 }
 

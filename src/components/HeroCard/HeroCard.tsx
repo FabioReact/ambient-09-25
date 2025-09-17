@@ -1,11 +1,18 @@
 import { Link } from 'react-router'
 import type { Hero } from '../../types/hero'
+import { useAuthContext } from '../../context/auth-context'
+import Star from '../Icons/Star'
+import { useHeroContext } from '../../context/hero-context'
 
 type Props = {
   hero: Hero
 }
 
 const HeroCard = ({ hero }: Props) => {
+  const { accessToken } = useAuthContext()
+  const { addToFavorites, removeFromFavorites, favorites } = useHeroContext()
+  const isFavorite = favorites.findIndex((f) => f.id === hero.id) !== -1
+
   return (
     <div className='max-w-xs rounded overflow-hidden shadow-lg'>
       <div className='h-96 overflow-hidden relative'>
@@ -21,6 +28,13 @@ const HeroCard = ({ hero }: Props) => {
             <Link to={`${hero.id}`}>{hero.name}</Link>
             <span className='text-gray-600 text-base'>#{hero.id}</span>
           </p>
+          {accessToken && (
+            <Star
+              onSelect={() => addToFavorites(hero)}
+              onUnSelect={() => removeFromFavorites(hero.id)}
+              filled={isFavorite}
+            />
+          )}
         </div>
         <p className='text-lg mb-2'>{hero.biography['full-name']}</p>
         <p className='text-gray-700'>
