@@ -9,6 +9,7 @@ import AuthContextProvider from './providers/AuthContextProvider'
 import CounterContextProvider from './providers/CounterContextProvider'
 import Home from './pages/Home/Home'
 import HeroContextProvider from './providers/HeroContextProvider'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const AppRoutes = () => {
   return (
@@ -26,9 +27,11 @@ const AppRoutes = () => {
   )
 }
 
+const queryClient = new QueryClient()
+
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthContextProvider>
           <HeroContextProvider>
@@ -38,7 +41,7 @@ function App() {
           </HeroContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
-    </>
+    </QueryClientProvider>
   )
 }
 
