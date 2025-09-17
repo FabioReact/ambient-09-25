@@ -5,16 +5,15 @@ import HeroDetails from './pages/HeroDetails/HeroDetails'
 import Search from './pages/Search/Search'
 import Register from './pages/Register/Register'
 import Profile from './pages/Profile/Profile'
-import AuthContext from './context/auth-context'
-import { useState } from 'react'
-import { useLocalStorage } from 'usehooks-ts'
 import AuthContextProvider from './providers/AuthContextProvider'
+import CounterContextProvider from './providers/CounterContextProvider'
+import Home from './pages/Home/Home'
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path='/' element={<p>Home</p>} />
+        <Route path='/' element={<Home />} />
         <Route path='/heroes' element={<HeroesList />} />
         <Route path='/heroes/:id' element={<HeroDetails />} />
         <Route path='/search' element={<Search />} />
@@ -31,7 +30,9 @@ function App() {
     <>
       <BrowserRouter>
         <AuthContextProvider>
-          <AppRoutes />
+          <CounterContextProvider>
+            <AppRoutes />
+          </CounterContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
     </>
