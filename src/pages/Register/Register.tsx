@@ -3,7 +3,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { schema } from './schema'
 import { registerUser } from '../../services/user'
-import { useState } from 'react'
+import { useAuthContext } from '../../context/auth-context'
 
 type Inputs = z.infer<typeof schema>
 
@@ -15,14 +15,15 @@ const Register = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
   })
-  const [accessToken, setAccessToken] = useState<null | string>(null)
+
+  const { loginUser } = useAuthContext()
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const response = await registerUser({
       email: data.email,
       password: data.password,
     })
-    setAccessToken(response.accessToken)
+    loginUser(response.accessToken)
   }
 
   return (
@@ -88,7 +89,6 @@ const Register = () => {
             <p className='text-green-500 text-xs italic mt-4'>Creation successful</p>
           )}
         </form>
-        {accessToken && <p className='text-green-500 text-xs italic mt-4'>Token: {accessToken}</p>}
       </div>
     </section>
   )

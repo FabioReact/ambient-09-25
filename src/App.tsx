@@ -5,6 +5,10 @@ import HeroDetails from './pages/HeroDetails/HeroDetails'
 import Search from './pages/Search/Search'
 import Register from './pages/Register/Register'
 import Profile from './pages/Profile/Profile'
+import AuthContext from './context/auth-context'
+import { useState } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
+import AuthContextProvider from './providers/AuthContextProvider'
 
 const AppRoutes = () => {
   return (
@@ -26,7 +30,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <AppRoutes />
+        <AuthContextProvider>
+          <AppRoutes />
+        </AuthContextProvider>
       </BrowserRouter>
     </>
   )

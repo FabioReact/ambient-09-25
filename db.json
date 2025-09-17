@@ -4,6 +4,16 @@
       "email": "email@email.fr",
       "password": "$2a$10$5qTxtB.JR9i8WNNdchp7n.jC/dl/A.DjEKkZrfIFFhJ5DTMuayLwy",
       "id": 1
+    },
+    {
+      "email": "email2@email.fr",
+      "password": "$2a$10$OLIGGL.fVaOzQ0UsZwY3k.2oHUM7z9h1KevwhJkuG3..ztVkKCCYW",
+      "id": 2
+    },
+    {
+      "email": "email3@email.fr",
+      "password": "$2a$10$lu/yB.e.YSirVsoX0TUKCuXLcjDqHsAqPYeIjd3oQDtwgAFZf9s3K",
+      "id": 3
     }
   ],
   "heroes": [
