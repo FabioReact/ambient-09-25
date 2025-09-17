@@ -29,7 +29,7 @@ export const getHeroesByFilters = (filters: Filters) => {
   const params = new URLSearchParams()
   params.append('name_like', filters.name || '')
   params.append('biography.full-name_like', filters.fullname || '')
-  params.append('biography.alignment', filters.alignment || '')
+  params.append('biography.alignment_like', filters.alignment || '')
   return fetch(`http://localhost:4000/heroes?${params.toString()}`).then((res) => res.json())
 }
 
