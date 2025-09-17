@@ -2,6 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { schema } from './schema'
+import { registerUser } from '../../services/user'
+import { useState } from 'react'
 
 type Inputs = z.infer<typeof schema>
 
@@ -13,8 +15,15 @@ const Register = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
   })
+  const [accessToken, setAccessToken] = useState<null | string>(null)
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const response = await registerUser({
+      email: data.email,
+      password: data.password,
+    })
+    setAccessToken(response.accessToken)
+  }
 
   return (
     <section className='flex items-center justify-center h-screen'>
@@ -79,6 +88,7 @@ const Register = () => {
             <p className='text-green-500 text-xs italic mt-4'>Creation successful</p>
           )}
         </form>
+        {accessToken && <p className='text-green-500 text-xs italic mt-4'>Token: {accessToken}</p>}
       </div>
     </section>
   )
