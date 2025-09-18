@@ -27,6 +27,11 @@ const MainLayout = () => {
               </NavLink>
             </li>
             <li>
+              <NavLink to='/login' className={getActiveClassNames}>
+                Login
+              </NavLink>
+            </li>
+            <li>
               <NavLink to='/register' className={getActiveClassNames}>
                 Register
               </NavLink>

@@ -10,6 +10,8 @@ import CounterContextProvider from './providers/CounterContextProvider'
 import Home from './pages/Home/Home'
 import HeroContextProvider from './providers/HeroContextProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Login from './pages/Login/Login'
+import PrivateRoute from './hoc/PrivateRoute'
 
 const AppRoutes = () => {
   return (
@@ -20,8 +22,12 @@ const AppRoutes = () => {
         <Route path='/heroes/:id' element={<HeroDetails />} />
         <Route path='/search' element={<Search />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/login' element={<Login />} />
         <Route path='*' element={<p>404</p>} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/secret' element={<p>Secret page</p>} />
+        </Route>
       </Route>
     </Routes>
   )
