@@ -1,20 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SelectLetter from './SelectLetter'
 import HeroCard from '../../components/HeroCard/HeroCard'
 import IsLoading from '../../components/IsLoading/IsLoading'
 import { useQuery } from '@tanstack/react-query'
 import { getHeroesByLetter } from '../../services/hero'
 import HeroSkeletonCard from '../../components/HeroCard/HeroSkeletonCard'
+import { useGetHeroesByLetterQuery, useLazyGetHeroesByLetterQuery } from '../../redux/services/heroesApi'
 
 const initialLetter = 'a'
 
 const HeroesList = () => {
   const [selectedLetter, setSelectedLetter] = useState(initialLetter)
 
-  const { isLoading, data: heroes } = useQuery({
-    queryKey: ['heroes', 'letter', selectedLetter],
-    queryFn: () => getHeroesByLetter(selectedLetter),
-  })
+  // const { isLoading, data: heroes } = useQuery({
+  //   queryKey: ['heroes', 'letter', selectedLetter],
+  //   queryFn: () => getHeroesByLetter(selectedLetter),
+  // })
+  const [searchHeroes, { isLoading, data: heroes }] = useLazyGetHeroesByLetterQuery()
+
+  useEffect(() => {
+    searchHeroes(selectedLetter)
+  }, [])
 
   // Fonction pure uniquement
   // 1. Pour un input donné, toujours retourner le même output
@@ -23,6 +29,7 @@ const HeroesList = () => {
 
   const onClickLetter = (letter: string) => {
     setSelectedLetter(letter)
+    searchHeroes(letter)
   }
 
   return (
