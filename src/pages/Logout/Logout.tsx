@@ -1,14 +1,15 @@
 import { useLayoutEffect } from 'react'
-import { useAuthContext } from '../../context/auth-context'
 import { Navigate } from 'react-router'
+import { useAppDispatch } from '../../redux/hooks'
+import { logoutUser } from '../../redux/reducers/authReducer'
 
 const Logout = () => {
-  const { logoutUser } = useAuthContext()
+  const dispatch = useAppDispatch()
 
   // Dès lors que j'arrive sur cette page, je suis tout de suite, déconnecté
 
   useLayoutEffect(() => {
-    logoutUser()
+    dispatch(logoutUser())
     return () => {}
   }, [])
 

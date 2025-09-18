@@ -3,9 +3,10 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { schema } from './schema'
 import { registerUser } from '../../services/user'
-import { useAuthContext } from '../../context/auth-context'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useAppDispatch } from '../../redux/hooks'
+import { loginUser } from '../../redux/reducers/authReducer'
 
 type Inputs = z.infer<typeof schema>
 
@@ -22,7 +23,7 @@ const Register = () => {
     mutationFn: (data: Inputs) => registerUser(data),
     onSuccess: (data) => {
       toast.success('User registered successfully')
-      loginUser(data.accessToken)
+      dispatch(loginUser(data.accessToken))
     },
     onError: (error) => {
       console.log(error)
@@ -30,7 +31,7 @@ const Register = () => {
     },
   })
 
-  const { loginUser } = useAuthContext()
+  const dispatch = useAppDispatch()
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     mutate(data)

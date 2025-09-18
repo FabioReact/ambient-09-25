@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router'
-import { useAuthContext } from '../../context/auth-context'
+import { useAppSelector } from '../../redux/hooks'
 
 enum LinkVisibility {
   PUBLIC = 'PUBLIC',
@@ -12,7 +12,7 @@ const Navigation = () => {
     return isActive ? 'text-red-600 font-bold' : 'font-bold'
   }
 
-  const { accessToken } = useAuthContext()
+  const accessToken = useAppSelector((state) => state.auth.accessToken)
   const isConnected = accessToken !== null
 
   const links = [

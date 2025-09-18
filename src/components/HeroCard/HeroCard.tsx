@@ -1,15 +1,15 @@
 import { Link } from 'react-router'
 import type { Hero } from '../../types/hero'
-import { useAuthContext } from '../../context/auth-context'
 import Star from '../Icons/Star'
 import { useHeroContext } from '../../context/hero-context'
+import { useAppSelector } from '../../redux/hooks'
 
 type Props = {
   hero: Hero
 }
 
 const HeroCard = ({ hero }: Props) => {
-  const { accessToken } = useAuthContext()
+  const accessToken = useAppSelector((state) => state.auth.accessToken)
   const { addToFavorites, removeFromFavorites, favorites } = useHeroContext()
   const isFavorite = favorites.findIndex((f) => f.id === hero.id) !== -1
 

@@ -2,11 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { schema } from './schema'
-import { useAuthContext } from '../../context/auth-context'
 import { signInUser } from '../../services/user'
 import { useLocation, useNavigate } from 'react-router'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { loginUser } from '../../redux/reducers/authReducer'
+import { useAppDispatch } from '../../redux/hooks'
 
 type Inputs = z.infer<typeof schema>
 
@@ -26,7 +27,7 @@ const Login = () => {
     mutationFn: (credentials: Inputs) => signInUser(credentials),
     onSuccess: (user) => {
       const nextRoute = location.state?.from ?? '/profile'
-      loginUser(user.accessToken)
+      dispatch(loginUser(user.accessToken))
       navigate(nextRoute, { replace: true })
     },
     onError: (error) => {
@@ -35,7 +36,7 @@ const Login = () => {
     },
   })
 
-  const { loginUser } = useAuthContext()
+  const dispatch = useAppDispatch()
 
   const onSubmit: SubmitHandler<Inputs> = async (credentials) => {
     mutate(credentials)

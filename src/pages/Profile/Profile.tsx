@@ -1,9 +1,9 @@
-import { useAuthContext } from '../../context/auth-context'
 import { useCounterContext } from '../../context/counter-context'
 import { useHeroContext } from '../../context/hero-context'
+import { useAppSelector } from '../../redux/hooks'
 
 const Profile = () => {
-  const { accessToken } = useAuthContext()
+  const accessToken = useAppSelector((state) => state.auth.accessToken)
   const { counter, increment } = useCounterContext()
   const { favorites, removeFromFavorites } = useHeroContext()
   return (
