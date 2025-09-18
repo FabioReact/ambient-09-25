@@ -3,7 +3,7 @@ import AuthContext from '../context/auth-context'
 import { useState, type PropsWithChildren } from 'react'
 
 const AuthContextProvider = ({ children }: PropsWithChildren) => {
-  const [localStorageToken, setLocalStorageToken] = useLocalStorage<string | null>('token', null)
+  const [localStorageToken, setLocalStorageToken, removeLocalStorageToken] = useLocalStorage<string | null>('token', null)
   const [accessToken, setAccessToken] = useState<string | null>(localStorageToken)
 
   const loginUser = (token: string) => {
@@ -11,7 +11,12 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
     setLocalStorageToken(token)
   }
 
-  return <AuthContext.Provider value={{ accessToken, loginUser }}>{children}</AuthContext.Provider>
+  const logoutUser = () => {
+    setAccessToken(null)
+    removeLocalStorageToken()
+  }
+
+  return <AuthContext.Provider value={{ accessToken, loginUser, logoutUser }}>{children}</AuthContext.Provider>
 }
 
 export default AuthContextProvider

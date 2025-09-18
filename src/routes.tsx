@@ -8,6 +8,8 @@ import Profile from './pages/Profile/Profile'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import PrivateRoute from './hoc/PrivateRoute'
+import Battle from './pages/Battle/Battle'
+import Logout from './pages/Logout/Logout'
 
 const AppRoutes = () => {
   return (
@@ -16,6 +18,7 @@ const AppRoutes = () => {
         <Route path='/' element={<Home />} />
         <Route path='/heroes' element={<HeroesList />} />
         <Route path='/heroes/:id' element={<HeroDetails />} />
+        <Route path='/battle' element={<Battle />} />
         <Route path='/search' element={<Search />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
@@ -23,6 +26,7 @@ const AppRoutes = () => {
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/secret' element={<p>Secret page</p>} />
+          <Route path='/logout' element={<Logout />} />
         </Route>
       </Route>
     </Routes>
