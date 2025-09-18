@@ -41,21 +41,16 @@ const Search = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data)
     refetch()
-    // getHeroesByFilters({
-    //   name: data.hero,
-    //   fullname: data.name,
-    //   alignment: data.alignment,
-    // }).then((heroes) => {
-    //   setHeroes(heroes)
-    // })
   }
 
   return (
-    <section>
-      <h1>Search</h1>
+    <section className='flex flex-col items-center h-screen gap-8 m-8'>
+      <h1 className='uppercase text-2xl font-extralight tracking-widest'>Search</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
-          <label htmlFor='alignment'>Alignment</label>
+          <label className='block text-gray-600 text-sm font-bold mb-2' htmlFor='alignment'>
+            Alignment
+          </label>
           <select id='alignment' {...register('alignment')}>
             <option value={HeroAlignment.GOOD}>Good</option>
             <option value={HeroAlignment.BAD}>Bad</option>
@@ -65,18 +60,32 @@ const Search = () => {
           )}
         </fieldset>
         <fieldset>
-          <label htmlFor='name'>Name</label>
-          <input type='text' id='name' {...register('name')} />
+          <label className='block text-gray-600 text-sm font-bold mb-2' htmlFor='name'>
+            Name
+          </label>
+          <input
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            type='text'
+            id='name'
+            {...register('name')}
+          />
           {errors.name && <p className='text-red-500 text-xs italic'>{errors.name.message}</p>}
         </fieldset>
         <fieldset>
-          <label htmlFor='hero'>Hero</label>
-          <input type='text' id='hero' {...register('hero')} />
+          <label className='block text-gray-600 text-sm font-bold mb-2' htmlFor='hero'>
+            Hero
+          </label>
+          <input
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            type='text'
+            id='hero'
+            {...register('hero')}
+          />
           {errors.hero && <p className='text-red-500 text-xs italic'>{errors.hero.message}</p>}
         </fieldset>
         <button
           disabled={!isValid}
-          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed'
+          className='my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed'
         >
           Search
         </button>

@@ -4,6 +4,7 @@ import HeroCard from '../../components/HeroCard/HeroCard'
 import IsLoading from '../../components/IsLoading/IsLoading'
 import { useQuery } from '@tanstack/react-query'
 import { getHeroesByLetter } from '../../services/hero'
+import HeroSkeletonCard from '../../components/HeroCard/HeroSkeletonCard'
 
 const initialLetter = 'a'
 
@@ -26,16 +27,12 @@ const HeroesList = () => {
 
   return (
     <section>
-      <h1>Heroes List</h1>
-      <p>Selected letter: {selectedLetter}</p>
       <SelectLetter selectedLetter={selectedLetter} onSelect={onClickLetter} />
-      <IsLoading loading={isLoading}>
-        <div className='flex flex-wrap justify-center gap-4'>
-          {heroes?.map((hero) => (
-            <HeroCard key={hero.id} hero={hero} />
-          ))}
-        </div>
-      </IsLoading>
+      <div className='flex flex-wrap justify-center gap-4'>
+        {isLoading &&
+          Array.from({ length: 10 }).map((_, index) => <HeroSkeletonCard key={index} />)}
+        {!isLoading && heroes?.map((hero) => <HeroCard key={hero.id} hero={hero} />)}
+      </div>
     </section>
   )
 }

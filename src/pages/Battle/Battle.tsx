@@ -1,65 +1,9 @@
 import { useState } from 'react'
 import type { Hero } from '../../types/hero'
-import { getHeroesByFilters } from '../../services/hero'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fight } from './utils'
 import HeroCard from '../../components/HeroCard/HeroCard'
 import Swords from '../../components/Icons/Swords'
-
-type SelectHeroProps = {
-  label: string
-  onSelect: (hero: Hero) => void
-}
-
-const SelectHero = ({ label, onSelect }: SelectHeroProps) => {
-  const [inputValue, setInputValue] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
-  const queryClient = useQueryClient()
-  const { data: heroes } = useQuery({
-    queryKey: ['heroes', searchTerm, label],
-    queryFn: () => getHeroesByFilters({ name: searchTerm }),
-    enabled: searchTerm !== '',
-  })
-
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (inputValue === '') return
-    setSearchTerm(inputValue)
-  }
-
-  return (
-    <div>
-      <form onSubmit={onSubmitHandler}>
-        <fieldset>
-          <label htmlFor={label}>Select your {label}</label>
-          <input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            type='text'
-            name={label}
-            id={label}
-          />
-        </fieldset>
-        <button>Search</button>
-      </form>
-      {heroes && (
-        <ul>
-          {heroes.map((hero) => (
-            <li
-              key={hero.id}
-              onClick={() => {
-                onSelect(hero)
-                queryClient.invalidateQueries({ queryKey: ['heroes'] })
-              }}
-            >
-              <span>#{hero.id}</span> - {hero.name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  )
-}
+import SelectHero from './SelectHero'
 
 const Battle = () => {
   const [hero, setHero] = useState<Hero | null>(null)
@@ -87,15 +31,15 @@ const Battle = () => {
   }
 
   return (
-    <section>
-      <h1>Battle</h1>
+    <section className='container mx-auto p-4 text-gray-900'>
+      <h1 className='text-4xl text-center mb-8 font-thin uppercase tracking-widest'>Battle</h1>
       {!winner && (
-        <div className='flex justify-center gap-8'>
+        <div className='flex justify-center items-start gap-8'>
           {!hero && <SelectHero label='hero' onSelect={onSelectHero} />}
           {hero && <HeroCard hero={hero} />}
           {hero && challenger && (
-            <div>
-              <button onClick={onFight}>
+            <div className='self-center'>
+              <button className='cursor-pointer' onClick={onFight}>
                 <Swords />
               </button>
             </div>
@@ -105,10 +49,16 @@ const Battle = () => {
         </div>
       )}
       {winner && (
-        <>
-          <button onClick={onReset}>Reset</button>
+        <div className='flex flex-col items-center gap-2'>
+          <button
+            onClick={onReset}
+            className='py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+          >
+            Reset
+          </button>
+          <h2>🎉 The winner is:</h2>
           <HeroCard hero={winner} />
-        </>
+        </div>
       )}
     </section>
   )
