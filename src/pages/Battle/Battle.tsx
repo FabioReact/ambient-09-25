@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import type { Hero } from '../../types/hero'
 import { getHeroesByFilters } from '../../services/hero'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -12,19 +12,19 @@ type SelectHeroProps = {
 }
 
 const SelectHero = ({ label, onSelect }: SelectHeroProps) => {
-  // useForm, useState, useRef
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [inputValue, setInputValue] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const queryClient = useQueryClient()
-  const { data: heroes, refetch } = useQuery({
-    queryKey: ['heroes', inputRef.current?.value, label],
-    queryFn: () => getHeroesByFilters({ name: inputRef.current?.value }),
-    enabled: !!inputRef.current?.value,
+  const { data: heroes } = useQuery({
+    queryKey: ['heroes', searchTerm, label],
+    queryFn: () => getHeroesByFilters({ name: searchTerm }),
+    enabled: searchTerm !== '',
   })
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (inputRef.current?.value === '') return null
-    refetch()
+    if (inputValue === '') return
+    setSearchTerm(inputValue)
   }
 
   return (
@@ -32,7 +32,13 @@ const SelectHero = ({ label, onSelect }: SelectHeroProps) => {
       <form onSubmit={onSubmitHandler}>
         <fieldset>
           <label htmlFor={label}>Select your {label}</label>
-          <input ref={inputRef} type='text' name={label} id={label} />
+          <input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            type='text'
+            name={label}
+            id={label}
+          />
         </fieldset>
         <button>Search</button>
       </form>
@@ -43,7 +49,7 @@ const SelectHero = ({ label, onSelect }: SelectHeroProps) => {
               key={hero.id}
               onClick={() => {
                 onSelect(hero)
-                queryClient.invalidateQueries()
+                queryClient.invalidateQueries({ queryKey: ['heroes'] })
               }}
             >
               <span>#{hero.id}</span> - {hero.name}

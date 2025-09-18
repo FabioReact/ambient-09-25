@@ -21,6 +21,7 @@ const Navigation = () => {
     { to: '/heroes', label: 'Heroes', visibility: LinkVisibility.PUBLIC },
     { to: '/search', label: 'Search', visibility: LinkVisibility.PUBLIC },
     { to: '/profile', label: 'Profile', visibility: LinkVisibility.PRIVATE },
+    { to: '/optimisations', label: 'Optiomisations', visibility: LinkVisibility.PRIVATE },
     { to: '/logout', label: 'Logout', visibility: LinkVisibility.PRIVATE },
     {
       to: '/register',
