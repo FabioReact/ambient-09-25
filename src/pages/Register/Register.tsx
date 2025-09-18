@@ -4,6 +4,8 @@ import { z } from 'zod'
 import { schema } from './schema'
 import { registerUser } from '../../services/user'
 import { useAuthContext } from '../../context/auth-context'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 type Inputs = z.infer<typeof schema>
 
@@ -15,15 +17,23 @@ const Register = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
   })
+  const { mutate } = useMutation({
+    mutationKey: ['register'],
+    mutationFn: (data: Inputs) => registerUser(data),
+    onSuccess: (data) => {
+      toast.success('User registered successfully')
+      loginUser(data.accessToken)
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message)
+    },
+  })
 
   const { loginUser } = useAuthContext()
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const response = await registerUser({
-      email: data.email,
-      password: data.password,
-    })
-    loginUser(response.accessToken)
+    mutate(data)
   }
 
   return (

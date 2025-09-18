@@ -25,7 +25,7 @@ type Filters = {
   alignment?: HeroAlignment
 }
 
-export const getHeroesByFilters = (filters: Filters) => {
+export const getHeroesByFilters = (filters: Filters): Promise<Hero[]> => {
   const params = new URLSearchParams()
   params.append('name_like', filters.name || '')
   params.append('biography.full-name_like', filters.fullname || '')

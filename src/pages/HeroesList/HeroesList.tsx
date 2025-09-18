@@ -2,15 +2,18 @@ import { useState } from 'react'
 import SelectLetter from './SelectLetter'
 import HeroCard from '../../components/HeroCard/HeroCard'
 import IsLoading from '../../components/IsLoading/IsLoading'
-import { useGetHeroesByLetter } from '../../hooks/useGetHeroesByLetter'
+import { useQuery } from '@tanstack/react-query'
+import { getHeroesByLetter } from '../../services/hero'
 
 const initialLetter = 'a'
 
 const HeroesList = () => {
   const [selectedLetter, setSelectedLetter] = useState(initialLetter)
-  const { heroes, loading, refetch } = useGetHeroesByLetter(initialLetter)
 
-  // useGetHeroesByLetter
+  const { isLoading, data: heroes } = useQuery({
+    queryKey: ['heroes', 'letter', selectedLetter],
+    queryFn: () => getHeroesByLetter(selectedLetter),
+  })
 
   // Fonction pure uniquement
   // 1. Pour un input donné, toujours retourner le même output
@@ -19,7 +22,6 @@ const HeroesList = () => {
 
   const onClickLetter = (letter: string) => {
     setSelectedLetter(letter)
-    refetch(letter)
   }
 
   return (
@@ -27,7 +29,7 @@ const HeroesList = () => {
       <h1>Heroes List</h1>
       <p>Selected letter: {selectedLetter}</p>
       <SelectLetter selectedLetter={selectedLetter} onSelect={onClickLetter} />
-      <IsLoading loading={loading}>
+      <IsLoading loading={isLoading}>
         <div className='flex flex-wrap justify-center gap-4'>
           {heroes?.map((hero) => (
             <HeroCard key={hero.id} hero={hero} />

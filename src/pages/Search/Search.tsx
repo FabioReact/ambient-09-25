@@ -2,10 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import z from 'zod'
 import { getHeroesByFilters } from '../../services/hero'
-import { useState } from 'react'
-import { HeroAlignment, type Hero } from '../../types/hero'
+import { HeroAlignment } from '../../types/hero'
 import HeroCard from '../../components/HeroCard/HeroCard'
 import { schema } from './schema'
+import { useQuery } from '@tanstack/react-query'
+import IsLoading from '../../components/IsLoading/IsLoading'
 
 type Inputs = z.infer<typeof schema>
 
@@ -13,21 +14,40 @@ const Search = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isValid },
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
   })
-  const [heroes, setHeroes] = useState<Hero[]>([])
+  // const [heroes, setHeroes] = useState<Hero[]>([])
+  // const filters = getValues() // recuperer les valeurs du formulaire lorsque la fonction est appelée
+  const { alignment, hero, name } = watch() // recuperer les valeurs du formulaire mises à jour
+
+  const {
+    data: heroes,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['heroes', alignment, hero, name],
+    queryFn: () =>
+      getHeroesByFilters({
+        name: name,
+        fullname: hero,
+        alignment: alignment,
+      }),
+    enabled: false,
+  })
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data)
-    getHeroesByFilters({
-      name: data.hero,
-      fullname: data.name,
-      alignment: data.alignment,
-    }).then((heroes) => {
-      setHeroes(heroes)
-    })
+    refetch()
+    // getHeroesByFilters({
+    //   name: data.hero,
+    //   fullname: data.name,
+    //   alignment: data.alignment,
+    // }).then((heroes) => {
+    //   setHeroes(heroes)
+    // })
   }
 
   return (
@@ -62,10 +82,12 @@ const Search = () => {
         </button>
       </form>
       <section className='flex flex-wrap justify-center gap-4'>
-        {heroes.length === 0 && <p>No hero found</p>}
-        {heroes.map((hero) => (
-          <HeroCard key={hero.id} hero={hero} />
-        ))}
+        <IsLoading loading={isLoading}>
+          {heroes?.length === 0 && <p>No hero found</p>}
+          {heroes?.map((hero) => (
+            <HeroCard key={hero.id} hero={hero} />
+          ))}
+        </IsLoading>
       </section>
     </section>
   )

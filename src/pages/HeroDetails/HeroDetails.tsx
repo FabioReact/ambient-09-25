@@ -8,7 +8,12 @@ const HeroDetails = () => {
   const { id } = useParams()
   // useQuery -> GET
   // useMutation -> POST, PUT, PATCH, DELETE
-  const { error, data: hero, isError, isLoading } = useQuery({
+  const {
+    error,
+    data: hero,
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ['hero', id],
     queryFn: () => getHeroById(id!),
   })

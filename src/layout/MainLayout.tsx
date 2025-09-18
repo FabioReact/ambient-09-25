@@ -1,4 +1,5 @@
 import { Outlet, NavLink } from 'react-router'
+import { ToastContainer } from 'react-toastify'
 
 const MainLayout = () => {
   const getActiveClassNames = ({ isActive }: { isActive: boolean }) => {
@@ -39,6 +40,7 @@ const MainLayout = () => {
         </nav>
       </header>
       <main>
+        <ToastContainer />
         <Outlet />
       </main>
     </>
